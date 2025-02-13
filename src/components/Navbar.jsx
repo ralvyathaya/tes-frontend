@@ -13,12 +13,17 @@ const Navbar = () => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const themeDropdownRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
+      }
+      if (themeDropdownRef.current && !themeDropdownRef.current.contains(event.target)) {
+        setIsThemeDropdownOpen(false);
       }
     };
 
@@ -26,11 +31,11 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const themeIcons = {
-    light: <SunIcon className="w-5 h-5" />,
-    dark: <MoonIcon className="w-5 h-5" />,
-    system: <ComputerDesktopIcon className="w-5 h-5" />
-  };
+  const themeOptions = [
+    { value: 'light', icon: SunIcon, label: 'Light Mode' },
+    { value: 'dark', icon: MoonIcon, label: 'Dark Mode' },
+    { value: 'system', icon: ComputerDesktopIcon, label: 'System' },
+  ];
 
   return (
     <nav className="bg-white dark:bg-gray-800 shadow-md">
@@ -43,14 +48,43 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            {/* Theme Toggle */}
-            <div className="relative">
+            {/* Theme Toggle Dropdown */}
+            <div className="relative" ref={themeDropdownRef}>
               <button
-                onClick={() => toggleTheme(theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light')}
-                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                onClick={() => setIsThemeDropdownOpen(!isThemeDropdownOpen)}
+                className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
               >
-                {themeIcons[theme]}
+                {themeOptions.find(option => option.value === theme)?.icon && 
+                  React.createElement(themeOptions.find(option => option.value === theme).icon, {
+                    className: "w-5 h-5"
+                  })
+                }
+                <ChevronDownIcon className="w-4 h-4" />
               </button>
+
+              {isThemeDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-20">
+                  {themeOptions.map((option) => (
+                    <button
+                      key={option.value}
+                      onClick={() => {
+                        toggleTheme(option.value);
+                        setIsThemeDropdownOpen(false);
+                      }}
+                      className={`flex items-center w-full px-4 py-2 text-sm ${
+                        theme === option.value
+                          ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/50'
+                          : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
+                      }`}
+                    >
+                      {React.createElement(option.icon, {
+                        className: "w-5 h-5 mr-3"
+                      })}
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* User Profile Dropdown */}
