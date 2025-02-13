@@ -103,7 +103,7 @@ const Dashboard = () => {
               type="text"
               value={searchTerm}
               onChange={handleSearch}
-              className="block w-full rounded-md border-gray-300 dark:border-gray-700 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-gray-800 dark:text-white"
+              className="block w-full rounded-md border-gray-300 dark:border-gray-700 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-gray-800 dark:text-white py-2" 
               placeholder="Search items..."
             />
           </div>
