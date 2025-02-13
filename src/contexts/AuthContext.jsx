@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Create context
 const AuthContext = createContext();
@@ -13,13 +14,20 @@ const DEMO_CREDENTIALS = {
 // Provider component
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Check local storage for existing session
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
+    const checkAuth = () => {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+      setLoading(false);
+    };
+    
+    checkAuth();
   }, []);
 
   const login = (username, password) => {
@@ -38,6 +46,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
+    navigate('/login');
   };
 
   const updateUserProfile = (data) => {
@@ -46,8 +55,20 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('user', JSON.stringify(updatedUser));
   };
 
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+    </div>;
+  }
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, updateUserProfile }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      login, 
+      logout, 
+      updateUserProfile,
+      isAuthenticated: !!user 
+    }}>
       {children}
     </AuthContext.Provider>
   );
