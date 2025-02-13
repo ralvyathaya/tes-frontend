@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.015a7114.css",
-    "main.js": "/static/js/main.d8b69af8.js",
-    "static/js/488.3fc051ce.chunk.js": "/static/js/488.3fc051ce.chunk.js",
-    "index.html": "/index.html",
-    "main.015a7114.css.map": "/static/css/main.015a7114.css.map",
-    "main.d8b69af8.js.map": "/static/js/main.d8b69af8.js.map",
-    "488.3fc051ce.chunk.js.map": "/static/js/488.3fc051ce.chunk.js.map"
+    "main.css": "/tes-frontend/static/css/main.015a7114.css",
+    "main.js": "/tes-frontend/static/js/main.76abc20f.js",
+    "static/js/488.3fc051ce.chunk.js": "/tes-frontend/static/js/488.3fc051ce.chunk.js",
+    "index.html": "/tes-frontend/index.html",
+    "main.015a7114.css.map": "/tes-frontend/static/css/main.015a7114.css.map",
+    "main.76abc20f.js.map": "/tes-frontend/static/js/main.76abc20f.js.map",
+    "488.3fc051ce.chunk.js.map": "/tes-frontend/static/js/488.3fc051ce.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.015a7114.css",
-    "static/js/main.d8b69af8.js"
+    "static/js/main.76abc20f.js"
   ]
 }
